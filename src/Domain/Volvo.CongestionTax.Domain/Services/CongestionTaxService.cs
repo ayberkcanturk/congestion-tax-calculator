@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Volvo.CongestionTax.Domain.Entities;
 using Volvo.CongestionTax.Domain.EqualityComparers;
+using Volvo.CongestionTax.Domain.Events;
 using Volvo.CongestionTax.Domain.Exceptions;
 using Volvo.Domain.SharedKernel;
 using Volvo.Infrastructure.SharedKernel.Repositories;
@@ -32,7 +33,8 @@ namespace Volvo.CongestionTax.Domain.Services
             IList<DateTime> passageDates,
             CancellationToken cancellationToken = default)
         {
-            var cityCongestionTaxRules = await GetCityCongestionTaxRulesByCountryCodeAndCity(countryCode, city, cancellationToken);
+            var cityCongestionTaxRules =
+                await GetCityCongestionTaxRulesByCountryCodeAndCity(countryCode, city, cancellationToken);
 
             if (cityCongestionTaxRules == null) throw new CongestionTaxRulesNotFoundException(countryCode, city);
 
@@ -41,11 +43,24 @@ namespace Volvo.CongestionTax.Domain.Services
 
             var publicHolidaysForCountry = await GetPublicHolidaysByCountryCode(countryCode, cancellationToken);
 
-            return Calculate(cityCongestionTaxRules, publicHolidaysForCountry, passageDates);
+            var totalAmount = CalculateByTaxRulesPublicHolidaysAndPassageDates(cityCongestionTaxRules,
+                publicHolidaysForCountry, passageDates, cancellationToken);
+
+            await _domainEventService.Publish(new CongestionTaxCalculatedEvent
+            {
+                City = city,
+                VehicleType = vehicleType,
+                PassagesTimes = passageDates,
+                Amount = totalAmount
+            });
+
+            return totalAmount;
         }
 
-        private decimal Calculate(CityCongestionTaxRules cityCongestionTaxRules,
-            ICollection<PublicHoliday> publicHolidays, IList<DateTime> passageDates)
+        private static decimal CalculateByTaxRulesPublicHolidaysAndPassageDates(
+            CityCongestionTaxRules cityCongestionTaxRules,
+            ICollection<PublicHoliday> publicHolidays, IList<DateTime> passageDates,
+            CancellationToken cancellationToken = default)
         {
             decimal totalAmount = 0;
 
@@ -60,18 +75,19 @@ namespace Volvo.CongestionTax.Domain.Services
             {
                 if (distinctTollFreeDates.Any(d => d.Date == distinctPassageDate.Date)) continue;
 
-                if (IsTaxFreePassageDate(distinctPassageDate, publicHolidays)) continue;
+                if (IsTaxFreePassageDate(cityCongestionTaxRules, distinctPassageDate, publicHolidays)) continue;
 
                 totalAmount +=
                     GetTotalAmountForADay(cityCongestionTaxRules,
-                        passageDates.Where(d => d.Date == distinctPassageDate.Date).ToList());
+                        passageDates.Where(d => d.Date == distinctPassageDate.Date).ToList(), cancellationToken);
             }
 
             return totalAmount;
         }
 
-        private async Task<CityCongestionTaxRules> GetCityCongestionTaxRulesByCountryCodeAndCity(string countryCode, string city,
-            CancellationToken cancellationToken)
+        private async Task<CityCongestionTaxRules> GetCityCongestionTaxRulesByCountryCodeAndCity(string countryCode,
+            string city,
+            CancellationToken cancellationToken = default)
         {
             return await _cityCongestionTaxRulesRepository.FindOneAsync(c =>
                 c.CountryCode == countryCode
@@ -79,7 +95,7 @@ namespace Volvo.CongestionTax.Domain.Services
         }
 
         private async Task<ICollection<PublicHoliday>> GetPublicHolidaysByCountryCode(string countryCode,
-            CancellationToken cancellationToken)
+            CancellationToken cancellationToken = default)
         {
             return await _publicHolidaysRepository.FindAsync(h => h.IsActive
                                                                   && h.CountryCode == countryCode, cancellationToken);
@@ -90,17 +106,19 @@ namespace Volvo.CongestionTax.Domain.Services
             return cityCongestionTaxRules.TaxExemptVehicles.Any(v => v.IsActive && v.Type == vehicleType);
         }
 
-        private static bool IsTaxFreePassageDate(DateTime passageDate,
+        private static bool IsTaxFreePassageDate(CityCongestionTaxRules cityCongestionTaxRules, DateTime passageDate,
             ICollection<PublicHoliday> publicHolidays)
         {
             return passageDate.DayOfWeek == DayOfWeek.Saturday ||
                    passageDate.DayOfWeek == DayOfWeek.Sunday ||
                    publicHolidays.Any(x => x.Date == passageDate.Date) ||
-                   publicHolidays.Any(x => x.Date.AddDays(-1) == passageDate.Date);
+                   publicHolidays.Any(x =>
+                       passageDate >= x.Date.AddHours(-cityCongestionTaxRules.HoursForFreeBeforeEachHolidayStart)
+                       && passageDate < x.Date);
         }
 
         private static decimal GetTotalAmountForADay(CityCongestionTaxRules cityCongestionTaxRules,
-            IEnumerable<DateTime> passageDates)
+            IEnumerable<DateTime> passageDates, CancellationToken cancellationToken = default)
         {
             decimal totalDailyAmount = 0;
             decimal previousTollAmount = 0;
@@ -108,12 +126,14 @@ namespace Volvo.CongestionTax.Domain.Services
 
             foreach (var currentPassageDate in passageDates)
             {
+                cancellationToken.ThrowIfCancellationRequested();
+
                 var timeZoneAmount = cityCongestionTaxRules.TimeZoneAmounts
                     .First(t => t.TimeZone.IsInTimeZone(currentPassageDate));
 
                 var minutesSinceLastPaidToll = (currentPassageDate - previousPassageDate).TotalMinutes;
 
-                if (minutesSinceLastPaidToll <= 60)
+                if (minutesSinceLastPaidToll <= cityCongestionTaxRules.MinutesForFreeAfterAPassage)
                 {
                     if (previousTollAmount < timeZoneAmount.Amount)
                     {

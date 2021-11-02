@@ -13,6 +13,8 @@ namespace Volvo.CongestionTax.Domain.Entities
         public ICollection<DateTime> TollFreeDates { get; set; } = new List<DateTime>();
         public ICollection<TimeZoneAmount> TimeZoneAmounts { get; set; } = new List<TimeZoneAmount>();
         public decimal MaxDailyTollAmount { get; set; }
+        public int MinutesForFreeAfterAPassage { get; set; }
+        public int HoursForFreeBeforeEachHolidayStart { get; set; }
         
         public List<DomainEvent> DomainEvents { get; set; } = new();
     }
