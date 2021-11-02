@@ -23,6 +23,8 @@ namespace Volvo.CongestionTax.WebAPI
                     CountryCode = "SE",
                     City = "Gothenburg",
                     MaxDailyTollAmount = 60M,
+                    MinutesForFreeAfterAPassage = 60,
+                    HoursForFreeBeforeEachHolidayStart = 24,
                     TaxExemptVehicles = new List<Vehicle>
                     {
                         new()
