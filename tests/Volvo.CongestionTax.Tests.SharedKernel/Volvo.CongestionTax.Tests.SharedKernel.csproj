@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Application\Volvo.CongestionTax.Application\Volvo.CongestionTax.Application.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -7,6 +7,7 @@ using Volvo.CongestionTax.Domain.Entities;
 using Volvo.CongestionTax.Domain.EqualityComparers;
 using Volvo.CongestionTax.Domain.Events;
 using Volvo.CongestionTax.Domain.Exceptions;
+using Volvo.CongestionTax.Domain.ValueObjects;
 using Volvo.Domain.SharedKernel;
 using Volvo.Infrastructure.SharedKernel.Repositories;
 
@@ -17,6 +18,8 @@ namespace Volvo.CongestionTax.Domain.Services
         private readonly IRepository<CityCongestionTaxRules> _cityCongestionTaxRulesRepository;
         private readonly IDomainEventService _domainEventService;
         private readonly IRepository<PublicHoliday> _publicHolidaysRepository;
+
+        private static readonly DateEqualityComparer DateEqualityComparer = new();
 
         public CongestionTaxService(IDomainEventService domainEventService,
             IRepository<CityCongestionTaxRules> cityCongestionTaxRulesRepository,
@@ -38,7 +41,7 @@ namespace Volvo.CongestionTax.Domain.Services
 
             if (cityCongestionTaxRules == null) throw new CongestionTaxRulesNotFoundException(countryCode, city);
 
-            if (CheckIfTaxExemptVehicle(cityCongestionTaxRules, vehicleType))
+            if (IsTaxExemptVehicle(cityCongestionTaxRules, vehicleType))
                 return 0;
 
             var publicHolidaysForCountry = await GetPublicHolidaysByCountryCode(countryCode, cancellationToken);
@@ -64,11 +67,11 @@ namespace Volvo.CongestionTax.Domain.Services
         {
             decimal totalAmount = 0;
 
-            var distinctPassageDates = passageDates.Distinct(new DateEqualityComparer());
+            var distinctPassageDates = passageDates.Distinct(DateEqualityComparer);
 
             var distinctTollFreeDates = cityCongestionTaxRules
                 .TollFreeDates
-                .Distinct(new DateEqualityComparer())
+                .Distinct(DateEqualityComparer)
                 .ToList();
 
             foreach (var distinctPassageDate in distinctPassageDates)
@@ -101,7 +104,7 @@ namespace Volvo.CongestionTax.Domain.Services
                                                                   && h.CountryCode == countryCode, cancellationToken);
         }
 
-        private static bool CheckIfTaxExemptVehicle(CityCongestionTaxRules cityCongestionTaxRules, string vehicleType)
+        private static bool IsTaxExemptVehicle(CityCongestionTaxRules cityCongestionTaxRules, string vehicleType)
         {
             return cityCongestionTaxRules.TaxExemptVehicles.Any(v => v.IsActive && v.Type == vehicleType);
         }
@@ -122,7 +125,14 @@ namespace Volvo.CongestionTax.Domain.Services
         {
             decimal totalDailyAmount = 0;
             decimal previousTollAmount = 0;
-            var previousPassageDate = DateTime.MinValue;
+            DateTime? previousPassageDate = null;
+
+            void SetPaidToll(TimeZoneAmount timeZoneAmount, DateTime passageDate)
+            {
+                totalDailyAmount += timeZoneAmount.Amount;
+                previousTollAmount = timeZoneAmount.Amount;
+                previousPassageDate = passageDate;
+            }
 
             foreach (var currentPassageDate in passageDates)
             {
@@ -131,21 +141,26 @@ namespace Volvo.CongestionTax.Domain.Services
                 var timeZoneAmount = cityCongestionTaxRules.TimeZoneAmounts
                     .First(t => t.TimeZone.IsInTimeZone(currentPassageDate));
 
-                var minutesSinceLastPaidToll = (currentPassageDate - previousPassageDate).TotalMinutes;
-
-                if (minutesSinceLastPaidToll <= cityCongestionTaxRules.MinutesForFreeAfterAPassage)
+                if (previousPassageDate.HasValue)
                 {
-                    if (previousTollAmount < timeZoneAmount.Amount)
+                    var totalMinutesSinceLastPaidToll = (currentPassageDate - previousPassageDate.Value).TotalMinutes;
+
+                    if (totalMinutesSinceLastPaidToll <= cityCongestionTaxRules.MinutesForFreeAfterAPassage)
                     {
-                        totalDailyAmount += timeZoneAmount.Amount - previousTollAmount;
-                        previousTollAmount = timeZoneAmount.Amount;
+                        if (previousTollAmount < timeZoneAmount.Amount)
+                        {
+                            totalDailyAmount += timeZoneAmount.Amount - previousTollAmount;
+                            previousTollAmount = timeZoneAmount.Amount;
+                        }
+                    }
+                    else
+                    {
+                        SetPaidToll(timeZoneAmount, currentPassageDate);
                     }
                 }
                 else
                 {
-                    totalDailyAmount += timeZoneAmount.Amount;
-                    previousTollAmount = timeZoneAmount.Amount;
-                    previousPassageDate = currentPassageDate;
+                    SetPaidToll(timeZoneAmount, currentPassageDate);
                 }
 
                 if (totalDailyAmount >= cityCongestionTaxRules.MaxDailyTollAmount)
