@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Volvo.CongestionTax.Application.Commands;
 
-namespace Volvo.CongestionTax.WebAPI.IntegrationTests
+namespace Volvo.CongestionTax.Tests.SharedKernel
 {
     public class InvalidCommands
     {
