@@ -4,7 +4,7 @@ using FluentAssertions;
 using Volvo.Application.SharedKernel.Exceptions;
 using Volvo.CongestionTax.Application.Commands;
 using Volvo.CongestionTax.Application.IntegrationTests.Fixtures;
-using Volvo.CongestionTax.WebAPI.IntegrationTests;
+using Volvo.CongestionTax.Tests.SharedKernel;
 using Xunit;
 
 namespace Volvo.CongestionTax.Application.IntegrationTests
