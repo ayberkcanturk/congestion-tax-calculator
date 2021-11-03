@@ -180,7 +180,7 @@ namespace Volvo.CongestionTax.WebAPI.IntegrationTests
             var result = await response.Content.DeserializeAsAsync<CalculateCongestionTaxCommandResult>();
             result.Amount.Should().Be(21);
         }
-
+        
         [Theory]
         [MemberData(nameof(InvalidCommands.CalculateCongestionTaxCommands), MemberType = typeof(InvalidCommands))]
         public async Task ShouldReturnInternalServerErrorWhenCommandIsNotValid(CalculateCongestionTaxCommand command)
@@ -189,7 +189,7 @@ namespace Volvo.CongestionTax.WebAPI.IntegrationTests
 
             response.IsSuccessStatusCode.Should().BeFalse();
         }
-
+        
         private async Task<HttpResponseMessage> SendCalculateCongestionTaxRequest(
             CalculateCongestionTaxCommand calculateCongestionTaxCommand)
         {

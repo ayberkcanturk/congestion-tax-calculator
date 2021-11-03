@@ -29,7 +29,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Volvo.CongestionTax.Infrast
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Volvo.Domain.SharedKernel", "src\Domain\Volvo.Domain.SharedKernel\Volvo.Domain.SharedKernel.csproj", "{60EA2FF6-C370-4503-823D-3280DB091812}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Volvo.CongestionTax.WebAPI.IntegrationTests", "tests\Volvo.CongestionTax.WebAPI.IntegrationTests\Volvo.CongestionTax.WebAPI.IntegrationTests.csproj", "{244484D2-8521-407F-B41B-B27300DC24CB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Volvo.CongestionTax.WebAPI.IntegrationTests", "tests\Volvo.CongestionTax.WebAPI.IntegrationTests\Volvo.CongestionTax.WebAPI.IntegrationTests.csproj", "{244484D2-8521-407F-B41B-B27300DC24CB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Volvo.CongestionTax.Application.UnitTests", "tests\Volvo.CongestionTax.Application.UnitTests\Volvo.CongestionTax.Application.UnitTests.csproj", "{599C86B6-7B4D-45A5-B5AC-94962A5B9172}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Volvo.CongestionTax.Application.IntegrationTests", "tests\Volvo.CongestionTax.Application.IntegrationTests\Volvo.CongestionTax.Application.IntegrationTests.csproj", "{8487B7C6-4763-48BF-93EE-05B82C7797E4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Volvo.CongestionTax.Tests.SharedKernel", "tests\Volvo.CongestionTax.Tests.SharedKernel\Volvo.CongestionTax.Tests.SharedKernel.csproj", "{5550D6A8-564E-4496-9BA4-DAFE75D3B973}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,6 +75,18 @@ Global
 		{244484D2-8521-407F-B41B-B27300DC24CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{244484D2-8521-407F-B41B-B27300DC24CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{244484D2-8521-407F-B41B-B27300DC24CB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{599C86B6-7B4D-45A5-B5AC-94962A5B9172}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{599C86B6-7B4D-45A5-B5AC-94962A5B9172}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{599C86B6-7B4D-45A5-B5AC-94962A5B9172}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{599C86B6-7B4D-45A5-B5AC-94962A5B9172}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8487B7C6-4763-48BF-93EE-05B82C7797E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8487B7C6-4763-48BF-93EE-05B82C7797E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8487B7C6-4763-48BF-93EE-05B82C7797E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8487B7C6-4763-48BF-93EE-05B82C7797E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5550D6A8-564E-4496-9BA4-DAFE75D3B973}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5550D6A8-564E-4496-9BA4-DAFE75D3B973}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5550D6A8-564E-4496-9BA4-DAFE75D3B973}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5550D6A8-564E-4496-9BA4-DAFE75D3B973}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -86,6 +104,9 @@ Global
 		{CF93B496-236B-45F0-9C69-9683ED3112BB} = {9B3A2574-ED23-48B5-9E02-4395ED583C46}
 		{60EA2FF6-C370-4503-823D-3280DB091812} = {1BDCFD6B-C41B-4C88-A17E-BAF7D2B9B8E4}
 		{244484D2-8521-407F-B41B-B27300DC24CB} = {237D08DD-6696-4D57-A77D-A28E7F6B12DD}
+		{599C86B6-7B4D-45A5-B5AC-94962A5B9172} = {237D08DD-6696-4D57-A77D-A28E7F6B12DD}
+		{8487B7C6-4763-48BF-93EE-05B82C7797E4} = {237D08DD-6696-4D57-A77D-A28E7F6B12DD}
+		{5550D6A8-564E-4496-9BA4-DAFE75D3B973} = {237D08DD-6696-4D57-A77D-A28E7F6B12DD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {180E05FF-297C-4FF1-99ED-47D33DC8A344}
