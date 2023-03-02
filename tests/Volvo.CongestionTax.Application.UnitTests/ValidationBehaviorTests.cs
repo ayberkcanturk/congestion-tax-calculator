@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
+using MediatR;
 using Moq;
 using Volvo.CongestionTax.Application.Commands;
 using Volvo.CongestionTax.Application.Core.Behaviour;
@@ -29,8 +30,9 @@ namespace Volvo.CongestionTax.Application.UnitTests
                     {
                         DateTime.Today
                     }
-                }, new CancellationToken(),
-                () => Task.Factory.StartNew(() => new CalculateCongestionTaxCommandResult()));
+                }, () => Task.Factory.StartNew(() => new CalculateCongestionTaxCommandResult()), 
+                new CancellationToken()
+                );
 
             task.Should().ThrowAsync<ValidationException>();
         }

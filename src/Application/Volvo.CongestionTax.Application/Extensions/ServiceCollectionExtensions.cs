@@ -11,7 +11,7 @@ namespace Volvo.CongestionTax.Application.Extensions
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
-            services.AddMediatR(Assembly.GetExecutingAssembly());
+            services.AddMediatR(configuration => configuration.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
             services.AddApplicationSharedKernel();
 
             return services;

@@ -30,5 +30,15 @@ namespace Volvo.CongestionTax.Domain.ValueObjects
             info.AddValue("TimeZone", TimeZone, typeof(TimeZone));
             info.AddValue("Amount", Amount, typeof(decimal));
         }
+
+
+        private bool Equals(TimeZoneAmount other)
+            => Amount == other.Amount && TimeZone == other.TimeZone;
+
+        public override bool Equals(object obj)
+            => ReferenceEquals(this, obj) || obj is TimeZoneAmount other && Equals(other);
+
+        public override int GetHashCode()
+            => HashCode.Combine(Amount, TimeZone);
     }
 }

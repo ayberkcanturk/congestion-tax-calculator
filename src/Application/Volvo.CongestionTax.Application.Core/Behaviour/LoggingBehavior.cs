@@ -14,6 +14,7 @@ namespace Volvo.CongestionTax.Application.Core.Behaviour
             _logger = logger;
         }
 
+#pragma warning disable
         public async Task Process(TRequest request, CancellationToken cancellationToken)
         {
             var requestName = typeof(TRequest).Name;

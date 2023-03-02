@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Newtonsoft.Json;
 using Volvo.CongestionTax.Domain.Entities;
@@ -27,13 +28,13 @@ namespace Volvo.CongestionTax.Data.EFCore.Configurations
                 v => JsonConvert.SerializeObject(v,
                     new JsonSerializerSettings {NullValueHandling = NullValueHandling.Ignore}),
                 v => JsonConvert.DeserializeObject<ICollection<DateTime>>(v,
-                    new JsonSerializerSettings {NullValueHandling = NullValueHandling.Ignore})).IsRequired();
+                    new JsonSerializerSettings {NullValueHandling = NullValueHandling.Ignore}), ValueComparer.CreateDefault(typeof(ICollection<DateTime>), true)).IsRequired();
 
             builder.Property(c => c.TimeZoneAmounts).HasConversion(
                 v => JsonConvert.SerializeObject(v,
                     new JsonSerializerSettings {NullValueHandling = NullValueHandling.Ignore}),
                 v => JsonConvert.DeserializeObject<ICollection<TimeZoneAmount>>(v,
-                    new JsonSerializerSettings {NullValueHandling = NullValueHandling.Ignore})).IsRequired();
+                    new JsonSerializerSettings {NullValueHandling = NullValueHandling.Ignore}), ValueComparer.CreateDefault(typeof(ICollection<TimeZoneAmount>), true)).IsRequired();
 
             builder.Ignore(c => c.DomainEvents);
         }

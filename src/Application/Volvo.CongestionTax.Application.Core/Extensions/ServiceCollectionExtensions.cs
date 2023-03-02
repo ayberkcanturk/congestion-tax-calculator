@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using MediatR.Pipeline;
 using Microsoft.Extensions.DependencyInjection;
 using Volvo.CongestionTax.Application.Core.Behaviour;
 
@@ -10,7 +11,7 @@ namespace Volvo.CongestionTax.Application.Core.Extensions
         {
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(UnhandledExceptionBehavior<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
-            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehaviour<>));
+            services.AddTransient(typeof(IRequestPreProcessor<>), typeof(LoggingBehaviour<>));
 
             return services;
         }
