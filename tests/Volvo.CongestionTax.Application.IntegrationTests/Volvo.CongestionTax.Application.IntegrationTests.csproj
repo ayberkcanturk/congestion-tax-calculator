@@ -29,7 +29,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\Application\Volvo.CongestionTax.Application\Volvo.CongestionTax.Application.csproj" />
     <ProjectReference Include="..\..\src\WebAPI\Volvo.CongestionTax.WebAPI\Volvo.CongestionTax.WebAPI.csproj" />
-    <ProjectReference Include="..\Volvo.CongestionTax.Tests.SharedKernel\Volvo.CongestionTax.Tests.SharedKernel.csproj" />
+    <ProjectReference Include="..\Volvo.CongestionTax.Tests.Common\Volvo.CongestionTax.Tests.Common.csproj" />
   </ItemGroup>
 
 </Project>

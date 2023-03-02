@@ -24,7 +24,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\Infrastructure\Volvo.CongestionTax.Data.EFCore\Volvo.CongestionTax.Data.EFCore.csproj" />
     <ProjectReference Include="..\..\src\WebAPI\Volvo.CongestionTax.WebAPI\Volvo.CongestionTax.WebAPI.csproj" />
-    <ProjectReference Include="..\Volvo.CongestionTax.Tests.SharedKernel\Volvo.CongestionTax.Tests.SharedKernel.csproj" />
+    <ProjectReference Include="..\Volvo.CongestionTax.Tests.Common\Volvo.CongestionTax.Tests.Common.csproj" />
   </ItemGroup>
 
 </Project>

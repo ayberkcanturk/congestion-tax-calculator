@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using Newtonsoft.Json;
 using Volvo.CongestionTax.Application.Commands;
-using Volvo.CongestionTax.Tests.SharedKernel;
+using Volvo.CongestionTax.Tests.Common;
 using Volvo.CongestionTax.WebAPI.IntegrationTests.Extensions;
 using Xunit;
 
