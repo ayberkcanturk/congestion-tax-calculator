@@ -13,7 +13,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Application\Volvo.CongestionTax.Application\Volvo.CongestionTax.Application.csproj" />
     <ProjectReference Include="..\..\Domain\Volvo.CongestionTax.Domain\Volvo.CongestionTax.Domain.csproj" />
-    <ProjectReference Include="..\..\Infrastructure\Volvo.CongestionTax.Infrastructure.EFCore\Volvo.CongestionTax.Infrastructure.EFCore.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\Volvo.CongestionTax.Data.EFCore\Volvo.CongestionTax.Data.EFCore.csproj" />
   </ItemGroup>
 
 </Project>

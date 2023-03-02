@@ -55,9 +55,9 @@ namespace Volvo.CongestionTax.Tests.SharedKernel
                         CountryCode = "SE",
                         City = "Gothenburg",
                         VehicleType = "Car",
-                        PassagesTimes = new List<DateTime> { }
+                        PassagesTimes = new List<DateTime>()
                     }
-                },
+                }
             };
     }
 }

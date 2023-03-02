@@ -6,9 +6,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Volvo.CongestionTax.Application.Extensions;
+using Volvo.CongestionTax.Data.EFCore;
+using Volvo.CongestionTax.Data.EFCore.Extensions;
 using Volvo.CongestionTax.Domain.Extensions;
-using Volvo.CongestionTax.Infrastructure.EFCore;
-using Volvo.CongestionTax.Infrastructure.EFCore.Extensions;
 
 namespace Volvo.CongestionTax.WebAPI
 {
@@ -26,7 +26,7 @@ namespace Volvo.CongestionTax.WebAPI
         {
             services.AddDbContext<CongestionTaxDbContext>(options =>
                 options.UseInMemoryDatabase("CongestionTaxDb"));
-            services.AddEfCoreInfastructure();
+            services.AddDataEfCore();
             services.AddDomain();
             services.AddApplication();
             services.AddControllers();

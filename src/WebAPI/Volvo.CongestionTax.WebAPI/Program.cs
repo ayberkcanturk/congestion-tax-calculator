@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Volvo.CongestionTax.Infrastructure.EFCore;
+using Volvo.CongestionTax.Data.EFCore;
 
 namespace Volvo.CongestionTax.WebAPI
 {

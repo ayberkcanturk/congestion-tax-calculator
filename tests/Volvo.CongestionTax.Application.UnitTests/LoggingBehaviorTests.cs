@@ -4,8 +4,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Moq;
-using Volvo.Application.SharedKernel.Behaviour;
 using Volvo.CongestionTax.Application.Commands;
+using Volvo.CongestionTax.Application.Core.Behaviour;
 using Xunit;
 
 namespace Volvo.CongestionTax.Application.UnitTests
@@ -39,7 +39,7 @@ namespace Volvo.CongestionTax.Application.UnitTests
                 It.IsAny<EventId>(),
                 It.IsAny<It.IsAnyType>(),
                 It.IsAny<Exception>(),
-                (Func<It.IsAnyType, Exception, string>)It.IsAny<object>()));
+                (Func<It.IsAnyType, Exception, string>) It.IsAny<object>()));
         }
     }
 }

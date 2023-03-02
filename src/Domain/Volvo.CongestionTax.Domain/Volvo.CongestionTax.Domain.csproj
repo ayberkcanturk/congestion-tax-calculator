@@ -1,12 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net5.0</TargetFramework>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\Infrastructure\Volvo.Infrastructure\Volvo.Infrastructure.SharedKernel.csproj" />
-    <ProjectReference Include="..\Volvo.Domain.SharedKernel\Volvo.Domain.SharedKernel.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\Infrastructure\Volvo.CongestionTax.Data.Core\Volvo.CongestionTax.Data.Core.csproj" />
+		<ProjectReference Include="..\Volvo.CongestionTax.Domain.Core\Volvo.CongestionTax.Domain.Core.csproj" />
+	</ItemGroup>
 
 </Project>

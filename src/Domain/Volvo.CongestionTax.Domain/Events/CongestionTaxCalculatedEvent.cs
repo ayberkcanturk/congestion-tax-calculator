@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using MediatR;
-using Volvo.Domain.SharedKernel;
+using Volvo.CongestionTax.Domain.Core;
 
 namespace Volvo.CongestionTax.Domain.Events
 {

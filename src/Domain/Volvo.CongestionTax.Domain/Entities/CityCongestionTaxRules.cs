@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using Volvo.CongestionTax.Domain.Core;
 using Volvo.CongestionTax.Domain.ValueObjects;
-using Volvo.Domain.SharedKernel;
 
 namespace Volvo.CongestionTax.Domain.Entities
 {
@@ -15,7 +15,7 @@ namespace Volvo.CongestionTax.Domain.Entities
         public decimal MaxDailyTollAmount { get; set; }
         public int MinutesForFreeAfterAPassage { get; set; }
         public int HoursForFreeBeforeEachHolidayStart { get; set; }
-        
+
         public List<DomainEvent> DomainEvents { get; set; } = new();
     }
 }

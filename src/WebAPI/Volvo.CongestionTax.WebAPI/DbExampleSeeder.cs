@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Volvo.CongestionTax.Data.EFCore;
+using Volvo.CongestionTax.Domain.Core;
 using Volvo.CongestionTax.Domain.Entities;
 using Volvo.CongestionTax.Domain.ValueObjects;
-using Volvo.CongestionTax.Infrastructure.EFCore;
-using Volvo.Domain.SharedKernel;
-using TimeZone = Volvo.Domain.SharedKernel.TimeZone;
+using TimeZone = Volvo.CongestionTax.Domain.Core.TimeZone;
 
 namespace Volvo.CongestionTax.WebAPI
 {
@@ -17,7 +17,6 @@ namespace Volvo.CongestionTax.WebAPI
             await context.Database.EnsureCreatedAsync();
 
             if (!context.CityCongestionTaxRules.Any())
-            {
                 await context.CityCongestionTaxRules.AddAsync(new CityCongestionTaxRules
                 {
                     CountryCode = "SE",
@@ -145,29 +144,28 @@ namespace Volvo.CongestionTax.WebAPI
                         }
                     }
                 });
-            }
 
             if (!context.PublicHolidays.Any())
             {
-                await context.PublicHolidays.AddAsync(new PublicHoliday()
+                await context.PublicHolidays.AddAsync(new PublicHoliday
                 {
                     CountryCode = "SE",
-                    Date = new DateTime(2013,1,1),
-                    Name = "New Year's Day",
+                    Date = new DateTime(2013, 1, 1),
+                    Name = "New Year's Day"
                 });
 
-                await context.PublicHolidays.AddAsync(new PublicHoliday()
+                await context.PublicHolidays.AddAsync(new PublicHoliday
                 {
                     CountryCode = "SE",
                     Date = new DateTime(2013, 5, 1),
-                    Name = "Labour's Day",
+                    Name = "Labour's Day"
                 });
 
-                await context.PublicHolidays.AddAsync(new PublicHoliday()
+                await context.PublicHolidays.AddAsync(new PublicHoliday
                 {
                     CountryCode = "SE",
                     Date = new DateTime(2013, 12, 25),
-                    Name = "Christmas",
+                    Name = "Christmas"
                 });
             }
 

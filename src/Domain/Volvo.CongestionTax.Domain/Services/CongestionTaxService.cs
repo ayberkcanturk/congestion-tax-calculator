@@ -3,23 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Volvo.CongestionTax.Data.Core.Repositories;
+using Volvo.CongestionTax.Domain.Core;
 using Volvo.CongestionTax.Domain.Entities;
 using Volvo.CongestionTax.Domain.EqualityComparers;
 using Volvo.CongestionTax.Domain.Events;
 using Volvo.CongestionTax.Domain.Exceptions;
 using Volvo.CongestionTax.Domain.ValueObjects;
-using Volvo.Domain.SharedKernel;
-using Volvo.Infrastructure.SharedKernel.Repositories;
 
 namespace Volvo.CongestionTax.Domain.Services
 {
     public class CongestionTaxService : ICongestionTaxService
     {
+        private static readonly DateEqualityComparer DateEqualityComparer = new();
         private readonly IRepository<CityCongestionTaxRules> _cityCongestionTaxRulesRepository;
         private readonly IDomainEventService _domainEventService;
         private readonly IRepository<PublicHoliday> _publicHolidaysRepository;
-
-        private static readonly DateEqualityComparer DateEqualityComparer = new();
 
         public CongestionTaxService(IDomainEventService domainEventService,
             IRepository<CityCongestionTaxRules> cityCongestionTaxRulesRepository,

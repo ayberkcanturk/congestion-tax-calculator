@@ -1,12 +1,11 @@
 ﻿using System;
 
-namespace Volvo.CongestionTax.Domain.Entities
+namespace Volvo.CongestionTax.Domain.Core
 {
     public abstract class AuditableEntity
     {
         public DateTime DateCreated { get; set; }
         public DateTime? DateLastModified { get; set; }
-        public bool IsActive { get; set; } = true;
     }
 
     public abstract class AuditableEntity<TKey> : AuditableEntity

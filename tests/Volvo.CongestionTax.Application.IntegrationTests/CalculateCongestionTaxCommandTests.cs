@@ -1,8 +1,8 @@
 using System;
 using System.Threading.Tasks;
 using FluentAssertions;
-using Volvo.Application.SharedKernel.Exceptions;
 using Volvo.CongestionTax.Application.Commands;
+using Volvo.CongestionTax.Application.Core.Exceptions;
 using Volvo.CongestionTax.Application.IntegrationTests.Fixtures;
 using Volvo.CongestionTax.Tests.SharedKernel;
 using Xunit;

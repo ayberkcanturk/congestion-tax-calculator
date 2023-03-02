@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using Volvo.Domain.SharedKernel;
+using Volvo.CongestionTax.Domain.Core;
 
 namespace Volvo.CongestionTax.Domain.Services
 {

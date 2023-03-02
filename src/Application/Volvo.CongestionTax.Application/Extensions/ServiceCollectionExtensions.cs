@@ -2,7 +2,7 @@
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using Volvo.Application.SharedKernel.Extensions;
+using Volvo.CongestionTax.Application.Core.Extensions;
 
 namespace Volvo.CongestionTax.Application.Extensions
 {
