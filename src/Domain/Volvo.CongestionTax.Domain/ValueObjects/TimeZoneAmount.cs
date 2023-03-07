@@ -14,7 +14,7 @@ namespace Volvo.CongestionTax.Domain.ValueObjects
         protected TimeZoneAmount(SerializationInfo info, StreamingContext context)
         {
             if (info == null)
-                throw new ArgumentNullException("info");
+                throw new ArgumentNullException(nameof(info));
 
             TimeZone = (TimeZone) info.GetValue("TimeZone", typeof(TimeZone));
             Amount = info.GetDecimal("Amount");
@@ -25,7 +25,7 @@ namespace Volvo.CongestionTax.Domain.ValueObjects
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            if (info == null) throw new ArgumentNullException("info");
+            if (info == null) throw new ArgumentNullException(nameof(info));
 
             info.AddValue("TimeZone", TimeZone, typeof(TimeZone));
             info.AddValue("Amount", Amount, typeof(decimal));
