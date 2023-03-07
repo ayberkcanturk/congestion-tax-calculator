@@ -1,8 +1,8 @@
 ﻿using FluentValidation;
 
-namespace Volvo.CongestionTax.Application.Commands
+namespace Volvo.CongestionTax.Application.Queries
 {
-    public class CalculateCongestionTaxCommandValidator : AbstractValidator<CalculateCongestionTaxCommand>
+    public class CalculateCongestionTaxCommandValidator : AbstractValidator<CalculateCongestionTaxQuery>
     {
         public CalculateCongestionTaxCommandValidator()
         {

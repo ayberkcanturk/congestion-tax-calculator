@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using MediatR;
 using Moq;
-using Volvo.CongestionTax.Application.Commands;
 using Volvo.CongestionTax.Application.Core.Behaviour;
 using Volvo.CongestionTax.Application.Core.Exceptions;
+using Volvo.CongestionTax.Application.Queries;
 using Xunit;
 
 namespace Volvo.CongestionTax.Application.UnitTests
@@ -17,11 +17,11 @@ namespace Volvo.CongestionTax.Application.UnitTests
         [Fact]
         public void ShouldValidationBehaviourThrowExceptionWhenCommandIsInvalid()
         {
-            var requestValidation = new Mock<ValidationBehaviour<CalculateCongestionTaxCommand,
-                CalculateCongestionTaxCommandResult>>(new CalculateCongestionTaxCommandValidator());
+            var requestValidation = new Mock<ValidationBehaviour<CalculateCongestionTaxQuery,
+                CalculateCongestionTaxQueryResult>>(new CalculateCongestionTaxCommandValidator());
 
-            Func<Task<CalculateCongestionTaxCommandResult>> task = async () => await requestValidation.Object.Handle(
-                new CalculateCongestionTaxCommand
+            Func<Task<CalculateCongestionTaxQueryResult>> task = async () => await requestValidation.Object.Handle(
+                new CalculateCongestionTaxQuery
                 {
                     CountryCode = "",
                     City = "Gothenburg",
@@ -30,7 +30,7 @@ namespace Volvo.CongestionTax.Application.UnitTests
                     {
                         DateTime.Today
                     }
-                }, () => Task.Factory.StartNew(() => new CalculateCongestionTaxCommandResult()), 
+                }, () => Task.Factory.StartNew(() => new CalculateCongestionTaxQueryResult()), 
                 new CancellationToken()
                 );
 

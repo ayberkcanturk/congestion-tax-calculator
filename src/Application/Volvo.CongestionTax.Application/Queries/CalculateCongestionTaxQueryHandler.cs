@@ -3,26 +3,26 @@ using System.Threading.Tasks;
 using MediatR;
 using Volvo.CongestionTax.Domain.Services;
 
-namespace Volvo.CongestionTax.Application.Commands
+namespace Volvo.CongestionTax.Application.Queries
 {
     public class
-        CalculateCongestionTaxCommandHandler : IRequestHandler<CalculateCongestionTaxCommand,
-            CalculateCongestionTaxCommandResult>
+        CalculateCongestionTaxQueryHandler : IRequestHandler<CalculateCongestionTaxQuery,
+            CalculateCongestionTaxQueryResult>
     {
         private readonly ICongestionTaxService _congestionTaxService;
 
-        public CalculateCongestionTaxCommandHandler(ICongestionTaxService congestionTaxService)
+        public CalculateCongestionTaxQueryHandler(ICongestionTaxService congestionTaxService)
         {
             _congestionTaxService = congestionTaxService;
         }
 
-        public async Task<CalculateCongestionTaxCommandResult> Handle(CalculateCongestionTaxCommand request,
+        public async Task<CalculateCongestionTaxQueryResult> Handle(CalculateCongestionTaxQuery request,
             CancellationToken cancellationToken)
         {
             var amount = await _congestionTaxService.CalculateAsync(request.CountryCode,
                 request.City, request.VehicleType, request.PassagesTimes, cancellationToken);
 
-            return new CalculateCongestionTaxCommandResult
+            return new CalculateCongestionTaxQueryResult
             {
                 Amount = amount
             };

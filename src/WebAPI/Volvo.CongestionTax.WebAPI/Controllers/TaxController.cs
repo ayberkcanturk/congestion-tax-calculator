@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
-using Volvo.CongestionTax.Application.Commands;
+using Volvo.CongestionTax.Application.Queries;
 
 namespace Volvo.CongestionTax.WebAPI.Controllers
 {
@@ -17,10 +17,10 @@ namespace Volvo.CongestionTax.WebAPI.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [SwaggerOperation(Description = "Calculate congestion charge", OperationId = "calculate",
             Tags = new[] {"calculate", "calculation", "congestion", "tax", "congestion-tax"})]
-        public async Task<CalculateCongestionTaxCommandResult> CalculateAsync(CalculateCongestionTaxCommand command,
+        public async Task<CalculateCongestionTaxQueryResult> CalculateAsync(CalculateCongestionTaxQuery query,
             CancellationToken cancellationToken)
         {
-            return await Mediator.Send(command, cancellationToken);
+            return await Mediator.Send(query, cancellationToken);
         }
     }
 }

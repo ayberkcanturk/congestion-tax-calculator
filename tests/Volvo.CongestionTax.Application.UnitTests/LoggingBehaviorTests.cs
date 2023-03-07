@@ -4,26 +4,26 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Moq;
-using Volvo.CongestionTax.Application.Commands;
 using Volvo.CongestionTax.Application.Core.Behaviour;
+using Volvo.CongestionTax.Application.Queries;
 using Xunit;
 
 namespace Volvo.CongestionTax.Application.UnitTests
 {
     public class LoggingBehaviorTests
     {
-        private readonly Mock<ILogger<CalculateCongestionTaxCommand>> _logger;
+        private readonly Mock<ILogger<CalculateCongestionTaxQuery>> _logger;
 
         public LoggingBehaviorTests()
         {
-            _logger = new Mock<ILogger<CalculateCongestionTaxCommand>>();
+            _logger = new Mock<ILogger<CalculateCongestionTaxQuery>>();
         }
 
         [Fact]
         public async Task ShouldLoggingBehaviourCallLogInformationWhenCommandHandled()
         {
-            var requestLogger = new Mock<LoggingBehaviour<CalculateCongestionTaxCommand>>(_logger.Object);
-            await requestLogger.Object.Process(new CalculateCongestionTaxCommand
+            var requestLogger = new Mock<LoggingBehaviour<CalculateCongestionTaxQuery>>(_logger.Object);
+            await requestLogger.Object.Process(new CalculateCongestionTaxQuery
             {
                 CountryCode = "SE",
                 City = "Gothenburg",

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Volvo.CongestionTax.Application.Commands;
+using Volvo.CongestionTax.Application.Queries;
 
 namespace Volvo.CongestionTax.Tests.Common
 {
@@ -11,7 +11,7 @@ namespace Volvo.CongestionTax.Tests.Common
             {
                 new object[]
                 {
-                    new CalculateCongestionTaxCommand
+                    new CalculateCongestionTaxQuery
                     {
                         CountryCode = "",
                         City = "Gothenburg",
@@ -24,7 +24,7 @@ namespace Volvo.CongestionTax.Tests.Common
                 },
                 new object[]
                 {
-                    new CalculateCongestionTaxCommand
+                    new CalculateCongestionTaxQuery
                     {
                         CountryCode = "SE",
                         City = "",
@@ -37,7 +37,7 @@ namespace Volvo.CongestionTax.Tests.Common
                 },
                 new object[]
                 {
-                    new CalculateCongestionTaxCommand
+                    new CalculateCongestionTaxQuery
                     {
                         CountryCode = "SE",
                         City = "Gothenburg",
@@ -50,7 +50,7 @@ namespace Volvo.CongestionTax.Tests.Common
                 },
                 new object[]
                 {
-                    new CalculateCongestionTaxCommand
+                    new CalculateCongestionTaxQuery
                     {
                         CountryCode = "SE",
                         City = "Gothenburg",

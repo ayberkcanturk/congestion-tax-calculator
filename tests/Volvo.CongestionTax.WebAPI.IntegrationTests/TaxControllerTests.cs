@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Newtonsoft.Json;
-using Volvo.CongestionTax.Application.Commands;
+using Volvo.CongestionTax.Application.Queries;
 using Volvo.CongestionTax.Tests.Common;
 using Volvo.CongestionTax.WebAPI.IntegrationTests.Extensions;
 using Xunit;
@@ -43,7 +43,7 @@ namespace Volvo.CongestionTax.WebAPI.IntegrationTests
             response.IsSuccessStatusCode.Should().BeTrue();
             response.StatusCode.Should().Be(HttpStatusCode.OK);
 
-            var result = await response.Content.DeserializeAsAsync<CalculateCongestionTaxCommandResult>();
+            var result = await response.Content.DeserializeAsAsync<CalculateCongestionTaxQueryResult>();
             result.Amount.Should().Be(amount);
         }
 
@@ -65,7 +65,7 @@ namespace Volvo.CongestionTax.WebAPI.IntegrationTests
             response.IsSuccessStatusCode.Should().BeTrue();
             response.StatusCode.Should().Be(HttpStatusCode.OK);
 
-            var result = await response.Content.DeserializeAsAsync<CalculateCongestionTaxCommandResult>();
+            var result = await response.Content.DeserializeAsAsync<CalculateCongestionTaxQueryResult>();
             result.Amount.Should().Be(0);
         }
 
@@ -89,7 +89,7 @@ namespace Volvo.CongestionTax.WebAPI.IntegrationTests
             response.IsSuccessStatusCode.Should().BeTrue();
             response.StatusCode.Should().Be(HttpStatusCode.OK);
 
-            var result = await response.Content.DeserializeAsAsync<CalculateCongestionTaxCommandResult>();
+            var result = await response.Content.DeserializeAsAsync<CalculateCongestionTaxQueryResult>();
             result.Amount.Should().Be(0);
         }
 
@@ -137,7 +137,7 @@ namespace Volvo.CongestionTax.WebAPI.IntegrationTests
             response.IsSuccessStatusCode.Should().BeTrue();
             response.StatusCode.Should().Be(HttpStatusCode.OK);
 
-            var result = await response.Content.DeserializeAsAsync<CalculateCongestionTaxCommandResult>();
+            var result = await response.Content.DeserializeAsAsync<CalculateCongestionTaxQueryResult>();
             result.Amount.Should().Be(0);
         }
 
@@ -157,7 +157,7 @@ namespace Volvo.CongestionTax.WebAPI.IntegrationTests
             response.IsSuccessStatusCode.Should().BeTrue();
             response.StatusCode.Should().Be(HttpStatusCode.OK);
 
-            var result = await response.Content.DeserializeAsAsync<CalculateCongestionTaxCommandResult>();
+            var result = await response.Content.DeserializeAsAsync<CalculateCongestionTaxQueryResult>();
             result.Amount.Should().Be(18);
         }
 
@@ -178,24 +178,24 @@ namespace Volvo.CongestionTax.WebAPI.IntegrationTests
             response.IsSuccessStatusCode.Should().BeTrue();
             response.StatusCode.Should().Be(HttpStatusCode.OK);
 
-            var result = await response.Content.DeserializeAsAsync<CalculateCongestionTaxCommandResult>();
+            var result = await response.Content.DeserializeAsAsync<CalculateCongestionTaxQueryResult>();
             result.Amount.Should().Be(21);
         }
 
         [Theory]
         [MemberData(nameof(InvalidCommands.CalculateCongestionTaxCommands), MemberType = typeof(InvalidCommands))]
-        public async Task ShouldReturnInternalServerErrorWhenCommandIsNotValid(CalculateCongestionTaxCommand command)
+        public async Task ShouldReturnInternalServerErrorWhenCommandIsNotValid(CalculateCongestionTaxQuery query)
         {
-            var response = await SendCalculateCongestionTaxRequest(command);
+            var response = await SendCalculateCongestionTaxRequest(query);
 
             response.IsSuccessStatusCode.Should().BeFalse();
         }
 
         private async Task<HttpResponseMessage> SendCalculateCongestionTaxRequest(
-            CalculateCongestionTaxCommand calculateCongestionTaxCommand)
+            CalculateCongestionTaxQuery calculateCongestionTaxQuery)
         {
             HttpContent httpContent =
-                new StringContent(JsonConvert.SerializeObject(calculateCongestionTaxCommand), Encoding.UTF8);
+                new StringContent(JsonConvert.SerializeObject(calculateCongestionTaxQuery), Encoding.UTF8);
             httpContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             var createOrderHttpResponseMessage =
                 await Client.PostAsync(CalculateCongestionTaxUri, httpContent, default);
@@ -208,7 +208,7 @@ namespace Volvo.CongestionTax.WebAPI.IntegrationTests
             string vehicleType,
             IList<DateTime> passagesTimes)
         {
-            var calculateCongestionTaxCommand = new CalculateCongestionTaxCommand
+            var calculateCongestionTaxCommand = new CalculateCongestionTaxQuery
             {
                 CountryCode = countryCode,
                 City = city,

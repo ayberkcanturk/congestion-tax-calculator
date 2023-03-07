@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using MediatR;
 
-namespace Volvo.CongestionTax.Application.Commands
+namespace Volvo.CongestionTax.Application.Queries
 {
-    public class CalculateCongestionTaxCommand : IRequest<CalculateCongestionTaxCommandResult>
+    public class CalculateCongestionTaxQuery : IRequest<CalculateCongestionTaxQueryResult>
     {
         public string CountryCode { get; set; }
         public string City { get; set; }
@@ -12,7 +12,7 @@ namespace Volvo.CongestionTax.Application.Commands
         public IList<DateTime> PassagesTimes { get; set; }
     }
 
-    public class CalculateCongestionTaxCommandResult
+    public class CalculateCongestionTaxQueryResult
     {
         public decimal Amount { get; set; }
     }
